@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">AppTTA</string>
+    <string name="texto_es">Bienvenido a RefugiApp</string>
+    <string name="texto_ar">مرحبا بكم في المأوى</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Login</string>
+    <string name="register">Registrar</string>
+    <string name="passwordCheck">Repita contraseña</string>
+    <string name="CampoVacio">Existen campos sin rellenar</string>
+    <string name="sinImplementar">Estamos trabajando en ello</string>
+    <string name="noCoincide">No coinciden las contraseñas introducidas</string>
+    <string name="Menu">ENTRAR</string>
 </resources>
