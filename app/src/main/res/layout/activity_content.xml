@@ -6,9 +6,43 @@
     android:orientation="vertical"
     tools:context="tta.ehu.eus.apptta.ContentActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AQUÍ IRÁ EL TEXTO"/>
+        android:id="@+id/cardview"
+        android:layout_margin="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play"
+                android:src="@drawable/play"
+                android:onClick="play"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/FrasES"
+                android:layout_toRightOf="@+id/play"
+                android:layout_alignParentTop="true"
+                android:textSize="20sp"
+                android:text="I BELIVE IN JESUUS"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/FrasAR"
+                android:layout_toRightOf="@+id/play"
+                android:layout_below="@+id/FrasES"
+                android:text="ALAAAAA AKBAAR"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         else{
             //Aqui hacer hilo mientras comprueba que es user correcto o no
             //dar acceso al menu
-            Intent intent = new Intent(this, ContentActivity.class);
+            Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
             //Toast.makeText(this, R.string.sinImplementar, Toast.LENGTH_SHORT).show();
         }

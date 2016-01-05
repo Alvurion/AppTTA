@@ -11,4 +11,11 @@
     <string name="sinImplementar">Estamos trabajando en ello</string>
     <string name="noCoincide">No coinciden las contraseñas introducidas</string>
     <string name="Menu">ENTRAR</string>
+    <string name="Policia">Policia</string>
+    <string name="Ayuntamiento">Ayuntamiento</string>
+    <string name="Supermercado">Supermercado</string>
+    <string name="Panaderia">Panaderia</string>
+    <string name="Estacion">Estación</string>
+    <string name="Farmacia">Farmacia</string>
+    <string name="Hospital">Hospital</string>
 </resources>
