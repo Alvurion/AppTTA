@@ -18,4 +18,5 @@
     <string name="Estacion">Estación</string>
     <string name="Farmacia">Farmacia</string>
     <string name="Hospital">Hospital</string>
+    <string name="incorrecto">Usuario o contraseña incorrectos, intente de nuevo</string>
 </resources>
