@@ -192,7 +192,7 @@
             card_view:cardElevation="10dp"
             card_view:cardPreventCornerOverlap="false"
             card_view:cardUseCompatPadding="true">
-   
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
