@@ -31,6 +31,7 @@ public class Data {
         Usuario u = new Usuario(nombre,pas);
         return u;
     }
+
     public Boolean esCorrecto(String nameOriginal , String passwordOriginal,String nameRecogido, String passRecogido){
         if (nameOriginal.equals(nameRecogido) && passwordOriginal.equals(passRecogido)){
             return true;
@@ -38,6 +39,13 @@ public class Data {
         else{
             return false;
         }
+    }
+    //Metodos POST
+    public int postUser(String name, String pass) throws IOException, JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("name", name);
+        jo.put("password", pass);
+        return restClient.postJson(jo, "addUser");
     }
 
 }

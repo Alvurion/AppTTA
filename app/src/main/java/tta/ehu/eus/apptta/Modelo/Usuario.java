@@ -12,6 +12,9 @@ public class Usuario {
         this.name=name;
         this.password=password;
     }
+    public Usuario(){
+
+    }
 
     public String getName() {
         return name;

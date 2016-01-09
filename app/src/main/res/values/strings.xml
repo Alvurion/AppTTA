@@ -19,4 +19,5 @@
     <string name="Farmacia">Farmacia</string>
     <string name="Hospital">Hospital</string>
     <string name="incorrecto">Usuario o contraseña incorrectos, intente de nuevo</string>
+    <string name="registroFallido">No se ha podido registrar al Usuario</string>
 </resources>
