@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else{
             if(pass1.equals(pass2)){
-                //Toast.makeText(this,R.string.sinImplementar,Toast.LENGTH_SHORT).show();
                 final Data data = new Data();
                 new Thread(new Runnable() {
                     @Override
@@ -53,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     if (finalRespuesta ==200){
+                                        Toast.makeText(getApplicationContext(),R.string.exito,Toast.LENGTH_SHORT).show();
                                         startActivity(intent);}
                                     else{
                                         Toast.makeText(getApplicationContext(),R.string.registroFallido,Toast.LENGTH_SHORT).show();

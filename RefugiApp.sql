@@ -16,18 +16,19 @@ CREATE SCHEMA IF NOT EXISTS `RefugiApp` DEFAULT CHARACTER SET latin1 ;
 USE `RefugiApp` ;
 
 -- -----------------------------------------------------
--- Table `RefugiApp`.`Enviroment`
+-- Table `RefugiApp`.`Users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `RefugiApp`.`Enviroment` ;
+DROP TABLE IF EXISTS `RefugiApp`.`Users` ;
 
-CREATE TABLE IF NOT EXISTS `RefugiApp`.`Enviroment` (
-  `idenviroments` INT(11) NOT NULL AUTO_INCREMENT,
-  `type` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idenviroments`))
+CREATE TABLE IF NOT EXISTS `RefugiApp`.`Users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = latin1;
-
-CREATE UNIQUE INDEX `idenviroments_UNIQUE` ON `RefugiApp`.`Enviroment` (`idenviroments` ASC);
 
 
 -- -----------------------------------------------------
@@ -40,36 +41,31 @@ CREATE TABLE IF NOT EXISTS `RefugiApp`.`Content` (
   `user` INT(11) NOT NULL,
   `phrase` VARCHAR(45) NULL DEFAULT NULL,
   `audio` VARCHAR(200) NOT NULL,
-  `Enviroment_idenviroments` INT(11) NOT NULL,
+  `Users_id` INT(11) NOT NULL,
   PRIMARY KEY (`idContent`),
-  CONSTRAINT `fk_Content_Enviroment1`
-    FOREIGN KEY (`Enviroment_idenviroments`)
-    REFERENCES `RefugiApp`.`Enviroment` (`idenviroments`)
+  UNIQUE INDEX `idContent_UNIQUE` (`idContent` ASC),
+  INDEX `fk_Content_Users1_idx` (`Users_id` ASC),
+  CONSTRAINT `fk_Content_Users1`
+    FOREIGN KEY (`Users_id`)
+    REFERENCES `RefugiApp`.`Users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE UNIQUE INDEX `idContent_UNIQUE` ON `RefugiApp`.`Content` (`idContent` ASC);
-
-CREATE INDEX `fk_Content_Enviroment1_idx` ON `RefugiApp`.`Content` (`Enviroment_idenviroments` ASC);
-
 
 -- -----------------------------------------------------
--- Table `RefugiApp`.`Users`
+-- Table `RefugiApp`.`Enviroment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `RefugiApp`.`Users` ;
+DROP TABLE IF EXISTS `RefugiApp`.`Enviroment` ;
 
-CREATE TABLE IF NOT EXISTS `RefugiApp`.`Users` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+CREATE TABLE IF NOT EXISTS `RefugiApp`.`Enviroment` (
+  `idenviroments` INT(11) NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idenviroments`),
+  UNIQUE INDEX `idenviroments_UNIQUE` (`idenviroments` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = latin1;
-
-CREATE UNIQUE INDEX `id_UNIQUE` ON `RefugiApp`.`Users` (`id` ASC);
 
 
 -- -----------------------------------------------------
@@ -82,19 +78,18 @@ CREATE TABLE IF NOT EXISTS `RefugiApp`.`Phrase` (
   `type` INT(11) NOT NULL,
   `phrase_es` VARCHAR(120) NOT NULL,
   `phrase_ar` VARCHAR(120) NOT NULL,
-  `Users_id` INT(11) NOT NULL,
+  `audioFrase` VARCHAR(200) NULL DEFAULT NULL,
+  `Enviroment_idenviroments` INT(11) NOT NULL,
   PRIMARY KEY (`idPhrase`),
-  CONSTRAINT `fk_Phrase_Users`
-    FOREIGN KEY (`Users_id`)
-    REFERENCES `RefugiApp`.`Users` (`id`)
+  UNIQUE INDEX `idPhrase_UNIQUE` (`idPhrase` ASC),
+  INDEX `fk_Phrase_Enviroment_idx` (`Enviroment_idenviroments` ASC),
+  CONSTRAINT `fk_Phrase_Enviroment`
+    FOREIGN KEY (`Enviroment_idenviroments`)
+    REFERENCES `RefugiApp`.`Enviroment` (`idenviroments`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-CREATE UNIQUE INDEX `idPhrase_UNIQUE` ON `RefugiApp`.`Phrase` (`idPhrase` ASC);
-
-CREATE INDEX `fk_Phrase_Users_idx` ON `RefugiApp`.`Phrase` (`Users_id` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

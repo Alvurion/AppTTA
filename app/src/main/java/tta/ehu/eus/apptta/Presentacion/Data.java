@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import tta.ehu.eus.apptta.Comunicaciones.RestClient;
+import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Modelo.Usuario;
 
 /**
@@ -17,6 +18,7 @@ public class Data {
     String server="http://192.168.0.24:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUser?name=%s";
+    String pathPhrase="getPhrases?type=%d";
 
     public Data(){
         restClient = new RestClient(server);
@@ -32,6 +34,26 @@ public class Data {
         return u;
     }
 
+    public Frase[] getPhrases(int type) throws IOException, JSONException {
+
+        JSONObject o = restClient.getJson(String.format(pathPhrase, type));
+        JSONArray a=o.getJSONArray("phrase");
+        Frase[] fraseArray=new Frase[a.length()];
+        for(int i=0;i<a.length();i++) {
+            JSONObject objeto = a.getJSONObject(i);
+            String fraseArabe = objeto.getString("phraseAr");
+            String fraseEspanol = objeto.getString("phraseEs");
+            int userID = objeto.getInt("userId");
+            String audioFrase = objeto.getString("audioFrase");
+            fraseArray[i]=new Frase();
+            fraseArray[i].setType(type);
+            fraseArray[i].setPhraseEs(fraseEspanol);
+            fraseArray[i].setPhraseAr(fraseArabe);
+            fraseArray[i].setUsersId(userID);
+            fraseArray[i].setAudioFrase(audioFrase);
+        }
+        return fraseArray;
+    }
     public Boolean esCorrecto(String nameOriginal , String passwordOriginal,String nameRecogido, String passRecogido){
         if (nameOriginal.equals(nameRecogido) && passwordOriginal.equals(passRecogido)){
             return true;
