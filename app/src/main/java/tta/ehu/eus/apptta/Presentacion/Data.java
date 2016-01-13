@@ -15,7 +15,7 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
  */
 public class Data {
     RestClient restClient;
-    String server="http://192.168.0.24:8080/RefugiApp/rest/AppTTA";
+    String server="http://10.106.29.222:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUser?name=%s";
     String pathPhrase="getPhrases?type=%d";
