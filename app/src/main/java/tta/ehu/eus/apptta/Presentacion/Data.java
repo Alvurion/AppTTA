@@ -10,12 +10,10 @@ import tta.ehu.eus.apptta.Comunicaciones.RestClient;
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Modelo.Usuario;
 
-/**
- * Created by Julen on 9/1/16.
- */
 public class Data {
     RestClient restClient;
-    String server="http://10.106.29.222:8080/RefugiApp/rest/AppTTA";
+    //192.168.0.24-- IP DE CASA
+    String server="http://192.168.0.24:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUser?name=%s";
     String pathPhrase="getPhrases?type=%d";

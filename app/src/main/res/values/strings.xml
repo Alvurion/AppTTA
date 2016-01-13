@@ -22,4 +22,7 @@
     <string name="registroFallido">No se ha podido registrar al Usuario</string>
     <string name="exito">Te has registrado exitosamente</string>
     <string name="RememberPass">Recordar contraseña</string>
+    <string name="RefiguApp">RefugiApp</string>
+    <string name="LoginLabel">Login</string>
+    <string name="RegistroLabel">Registro</string>
 </resources>
