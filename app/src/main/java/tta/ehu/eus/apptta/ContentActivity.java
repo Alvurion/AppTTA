@@ -1,6 +1,7 @@
 package tta.ehu.eus.apptta;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,16 +9,11 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 
 import tta.ehu.eus.apptta.Modelo.Frase;
@@ -68,6 +64,7 @@ public class ContentActivity extends AppCompatActivity {
         CardView card = new CardView(new ContextThemeWrapper(ContentActivity.this, R.style.CardViewStyle), null, 0);
         RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(ContentActivity.this, R.style.Widget_CardContent));
 
+
         RelativeLayout.LayoutParams paramsMW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         int margin = 5;
         paramsMW.setMargins(margin, margin, margin, margin);
@@ -75,10 +72,11 @@ public class ContentActivity extends AppCompatActivity {
 
 
         RelativeLayout.LayoutParams paramsWW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsWWPrueba= new RelativeLayout.LayoutParams(200,200);
         ImageButton ib = new ImageButton(this);
         ib.setId('1');// El ID da igual que no fueran unicos solo importa que sea positivo según la documentación del tipo View
         int ID_IB = ib.getId();
-        ib.setLayoutParams(paramsWW);
+        ib.setLayoutParams(paramsWWPrueba);
         ib.setImageResource(R.drawable.play);
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +84,7 @@ public class ContentActivity extends AppCompatActivity {
                 play(v);
             }
         });
+        ib.setBackground(null);
         cardInner.addView(ib);
 
 
@@ -98,6 +97,7 @@ public class ContentActivity extends AppCompatActivity {
         tvEs.setLayoutParams(paramsWW2);
         tvEs.setText(frase.getPhraseEs());
         tvEs.setTextSize(20);
+        tvEs.setTextColor(Color.BLACK);
         cardInner.addView(tvEs);
 
         TextView tvAr = new TextView(this);
@@ -106,9 +106,12 @@ public class ContentActivity extends AppCompatActivity {
         paramsWW3.addRule(cardInner.BELOW, ID_TvES);
         tvAr.setLayoutParams(paramsWW3);
         tvAr.setText(frase.getPhraseAr());
+        tvAr.setTextSize(15);
 
         cardInner.addView(tvAr);
         card.addView(cardInner);
+        card.setCardElevation(5);
+        card.setUseCompatPadding(true);
         return card;
     }
 
