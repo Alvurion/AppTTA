@@ -116,6 +116,13 @@ public class ContentActivity extends AppCompatActivity {
         return card;
     }
 
+    public void abrirMapa(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+
+
 
 
 

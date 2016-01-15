@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import tta.ehu.eus.apptta.Comunicaciones.RestClient;
+import tta.ehu.eus.apptta.Modelo.Coordenadas;
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Modelo.Usuario;
 
@@ -68,6 +69,32 @@ public class Data {
         jo.put("name", name);
         jo.put("password", pass);
         return restClient.postJson(jo, "addUser");
+    }
+
+
+
+
+
+
+
+
+
+
+    public Coordenadas[] getCoordenadas (String path) throws IOException,JSONException{
+
+        JSONObject o = restClient.getJson(String.format(path));
+        JSONArray results = o.getJSONArray("results");
+        Coordenadas[] coordenadas = new Coordenadas[results.length()];
+
+        // Recorrer el array de resultados y obtener de cada uno las coordenadas
+
+        /*for (int i=0; i<results.length();i++){
+            JSONObject geometry = results[i].getJSONObject("geometry");
+            JSONObject location = geometry.getJSONObject("location");
+        }
+        */
+
+        return coordenadas;
     }
 
 }
