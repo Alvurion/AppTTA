@@ -107,8 +107,13 @@ public class ContentActivity extends AppCompatActivity {
         tvAr.setLayoutParams(paramsWW3);
         tvAr.setText(frase.getPhraseAr());
         tvAr.setTextSize(15);
-
         cardInner.addView(tvAr);
+
+        TextView codigoAudio= new TextView(this);
+        codigoAudio.setText(frase.getAudioFrase());
+        codigoAudio.setVisibility(View.GONE);
+        cardInner.addView(codigoAudio);
+
         card.addView(cardInner);
         card.setCardElevation(5);
         card.setUseCompatPadding(true);
@@ -116,7 +121,7 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     public void play(View view) {
-        Uri uri = Uri.parse("http://s1.vocaroo.com/media/download_temp/Vocaroo_s1oeSrDz6rCV.mp3");
+        Uri uri = Uri.parse("http://10.106.29.222:8080/file/buenos_dias.mp3");
         LinearLayout linear = (LinearLayout) findViewById(R.id.LinearContent);
         AudioPlayer audioPlayer = new AudioPlayer(linear);
         try {

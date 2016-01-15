@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class RestClient {
     private final static String AUTH = "Authorization";
     private final String baseUrl;
@@ -29,29 +31,24 @@ public class RestClient {
         String basicAuth = Base64.encodeToString(String.format("%s:%s",user,passwd).getBytes(), Base64.DEFAULT);
         setAuthorization(String.format("Basic %s", basicAuth));
     }
-
     public String getAuthorization() {
         return properties.get(AUTH);
     }
-
     public void setAuthorization(String auth) {
         properties.put(AUTH, auth);
     }
-
     public void setProperty(String name, String value) {
         properties.put(name, value);
     }
-
     private HttpURLConnection getConnection(String path) throws IOException {
         URL url = new URL(String.format("%s/%s", baseUrl, path));
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        //for (Map.Entry<String, String> property : properties.entrySet())
-          //  conn.setRequestProperty(property.getKey(), property.getValue());
-        //conn.setUseCaches(false);
-        conn.setRequestProperty("Connection", "Keep-Alive");
+        for (Map.Entry<String, String> property : properties.entrySet())
+            conn.setRequestProperty(property.getKey(), property.getValue());
+        conn.setUseCaches(false);
+        //conn.setRequestProperty("Connection", "Keep-Alive");
         return conn;
     }
-
     public String getString(String path) throws IOException {
         HttpURLConnection conn = null;
         try {
@@ -69,34 +66,6 @@ public class RestClient {
         return new JSONObject(getString(path));
     }
 
-    //Envío de ficheros
-    public int postFile(String path, InputStream is, String fileName) throws IOException {
-        String boundary = Long.toString(System.currentTimeMillis());
-        String newLine = "\r\n";
-        String prefix = "--";
-        HttpURLConnection conn = null;
-        try {
-            conn = getConnection(path);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-            out.writeBytes(prefix + boundary + newLine);
-            out.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + fileName + "\"" + newLine);
-            out.writeBytes(newLine);
-            byte[] data = new byte[1024 * 1024];
-            int len;
-            while ((len = is.read(data)) > 0)
-                out.write(data, 0, len);
-            out.writeBytes(newLine);
-            out.writeBytes(prefix + boundary + prefix + newLine);
-            out.close();
-            return conn.getResponseCode();
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-    }
 
     public int postJson(final JSONObject json, String path) throws IOException {
         HttpURLConnection conn = null;

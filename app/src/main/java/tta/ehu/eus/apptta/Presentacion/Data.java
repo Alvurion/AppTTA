@@ -13,7 +13,8 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
 public class Data {
     RestClient restClient;
     //192.168.0.24-- IP DE CASA
-    String server="http://192.168.0.24:8080/RefugiApp/rest/AppTTA";
+    //IP CLASE 10.106.29.222
+    String server="http://10.106.29.222:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUser?name=%s";
     String pathPhrase="getPhrases?type=%d";
@@ -31,7 +32,6 @@ public class Data {
         Usuario u = new Usuario(nombre,pas);
         return u;
     }
-
     public Frase[] getPhrases(int type) throws IOException, JSONException {
 
         JSONObject o = restClient.getJson(String.format(pathPhrase, type));
@@ -52,8 +52,8 @@ public class Data {
         }
         return fraseArray;
     }
-    public Boolean esCorrecto(String nameOriginal , String passwordOriginal,String nameRecogido, String passRecogido){
-        if (nameOriginal.equals(nameRecogido) && passwordOriginal.equals(passRecogido)){
+    public Boolean esCorrecto(int comprobacion){
+        if (comprobacion==200){
             return true;
         }
         else{
@@ -66,6 +66,15 @@ public class Data {
         jo.put("name", name);
         jo.put("password", pass);
         return restClient.postJson(jo, "addUser");
+    }
+
+    //Metodos POST
+    public int comproUser(String name, String pass) throws IOException, JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("name", name);
+        jo.put("password", pass);
+
+        return restClient.postJson(jo, "comprobarUser");
     }
 
 }

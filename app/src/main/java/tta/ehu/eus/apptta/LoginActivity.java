@@ -44,44 +44,46 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(final View view) {
-        EditText u=(EditText) findViewById(R.id.TxtUsuario);
-        final String user=u.getText().toString();
-        EditText p=(EditText) findViewById(R.id.TxtPassword);
-        final String pass=p.getText().toString();
-        CheckBox cb=(CheckBox)findViewById(R.id.box1);
+        EditText u = (EditText) findViewById(R.id.TxtUsuario);
+        final String user = u.getText().toString();
+        EditText p = (EditText) findViewById(R.id.TxtPassword);
+        final String pass = p.getText().toString();
+        CheckBox cb = (CheckBox) findViewById(R.id.box1);
 
         //Los tenemos cogidos para cuando tengamos la DB preparada
-        if(user.isEmpty() ||pass.isEmpty() ){
+        if (user.isEmpty() || pass.isEmpty()) {
             Toast.makeText(this, R.string.CampoVacio, Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             //Aqui hacer hilo mientras comprueba que es user correcto o no
             //dar acceso al menu
             final Intent intent = new Intent(this, MenuActivity.class);
             setLogin(u.getText().toString());
-            if(cb.isChecked()){
+            if (cb.isChecked()) {
                 setPassword(p.getText().toString());
             }
             final Data data = new Data();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Usuario usuario = null;
-                    Boolean comprobacion= false;
+                    int response;
+                    boolean comprobacion = false;
+
                     try {
-                        usuario = data.getUser(user, pass);
-                        comprobacion=data.esCorrecto(usuario.getName(),usuario.getPassword(),user,pass);
+                        response = data.comproUser(user, pass);
+                        comprobacion=data.esCorrecto(response);
+
                     } catch (Exception e) {
                         Log.e("ALERTA", e.getMessage(), e);
                     } finally {
-                        final Boolean finalComprobacion = comprobacion;
+
+                        final boolean finalComprobacion = comprobacion;
                         view.post(new Runnable() {
                             @Override
                             public void run() {
-                                if (finalComprobacion){
-                                startActivity(intent);}
-                                else{
-                                    Toast.makeText(getApplicationContext(),R.string.incorrecto,Toast.LENGTH_SHORT).show();
+                                if (finalComprobacion) {
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), R.string.incorrecto, Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -111,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         return prefs.getString(EXTRA_LOGIN, null);
     }
+
     private void setLogin(String login) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -122,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         return prefs.getString(EXTRA_PASS, null);
     }
+
     private void setPassword(String pass) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
