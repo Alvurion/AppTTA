@@ -76,6 +76,7 @@ public class ContentActivity extends AppCompatActivity {
         ImageButton ib = new ImageButton(this);
         ib.setId('1');// El ID da igual que no fueran unicos solo importa que sea positivo según la documentación del tipo View
         int ID_IB = ib.getId();
+        ib.setTag(frase.getAudioFrase());
         ib.setLayoutParams(paramsWWPrueba);
         ib.setImageResource(R.drawable.play);
         ib.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +122,10 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     public void play(View view) {
-        Uri uri = Uri.parse("http://10.106.29.222:8080/file/buenos_dias.mp3");
+        String basePlay="http://192.168.0.24:8080/file/";
+        String url= (String) view.getTag();
+        String urlcompleta= basePlay+url;
+        Uri uri = Uri.parse(urlcompleta);
         LinearLayout linear = (LinearLayout) findViewById(R.id.LinearContent);
         AudioPlayer audioPlayer = new AudioPlayer(linear);
         try {
