@@ -1,22 +1,23 @@
 package tta.ehu.eus.apptta.Modelo;
 
-public class Frase {
+
+public class Content {
     int type;
-    String phraseEs;
-    String phraseAr;
+    String fraseEs;
+    String fraseAr;
     int usersId;
-    String audioFrase;
+    String audio;
 
 
 
-    public Frase(int type, String phraseEs, String phraseAr, String audioFrase) {
+    public Content(int type, String phraseEs, String phraseAr, String audioFrase) {
         this.type = type;
-        this.phraseEs = phraseEs;
-        this.phraseAr = phraseAr;
-        this.audioFrase = audioFrase;
+        this.fraseEs = phraseEs;
+        this.fraseAr = phraseAr;
+        this.audio = audioFrase;
     }
 
-    public Frase() {
+    public Content() {
 
     }
 
@@ -29,26 +30,26 @@ public class Frase {
     }
 
     public String getPhraseEs() {
-        return phraseEs;
+        return fraseEs;
     }
 
     public void setPhraseEs(String phraseEs) {
-        this.phraseEs = phraseEs;
+        this.fraseEs = phraseEs;
     }
 
     public String getPhraseAr() {
-        return phraseAr;
+        return fraseAr;
     }
 
     public void setPhraseAr(String phraseAr) {
-        this.phraseAr = phraseAr;
+        this.fraseAr = phraseAr;
     }
 
     public String getAudioFrase() {
-        return audioFrase;
+        return audio;
     }
 
     public void setAudioFrase(String audioFrase) {
-        this.audioFrase = audioFrase;
+        this.audio= audioFrase;
     }
 }

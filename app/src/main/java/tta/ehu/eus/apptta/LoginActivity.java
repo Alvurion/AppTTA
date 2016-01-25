@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             //Aqui hacer hilo mientras comprueba que es user correcto o no
             //dar acceso al menu
             final Intent intent = new Intent(this, MenuActivity.class);
+            intent.putExtra(EXTRA_LOGIN,user);
             setLogin(u.getText().toString());
             if (cb.isChecked()) {
                 setPassword(p.getText().toString());

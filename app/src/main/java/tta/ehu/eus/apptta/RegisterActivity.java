@@ -7,9 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import tta.ehu.eus.apptta.Comunicaciones.RestClient;
-import tta.ehu.eus.apptta.Modelo.Usuario;
 import tta.ehu.eus.apptta.Presentacion.Data;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -40,7 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Usuario usuario = null;
                         Integer respuesta = null;
                         try {
                             respuesta = data.postUser(user, pass1);

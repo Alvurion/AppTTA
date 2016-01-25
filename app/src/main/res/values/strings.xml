@@ -25,4 +25,13 @@
     <string name="RefiguApp">RefugiApp</string>
     <string name="LoginLabel">Login</string>
     <string name="RegistroLabel">Registro</string>
+    <string name="fraseEs">Introduzca frase en español</string>
+    <string name="fraseEsp">Frase en Español</string>
+    <string name="fraseAr">Introduzca frase en Árabe</string>
+    <string name="fraseArb">Frase en Árabe</string>
+    <string name="enviar">Enviar</string>
+    <string name="Propio">Frases Propias</string>
+    <string name="RegistrarFrase">Registrar frase</string>
+    <string name="exitoFrase">El registro de la frase ha ido bien</string>
+    <string name="registroFallidoFrase">La frase no se ha registrado</string>
 </resources>
