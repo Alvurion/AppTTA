@@ -45,4 +45,5 @@
         android:drawablePadding="5dp"
         android:onClick="entry"
         />
+
 </LinearLayout>

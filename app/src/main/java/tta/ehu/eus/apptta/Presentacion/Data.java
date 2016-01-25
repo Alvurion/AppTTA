@@ -11,28 +11,23 @@ import tta.ehu.eus.apptta.Modelo.Coordenadas;
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Modelo.Usuario;
 
-/**
- * Created by Julen on 9/1/16.
- */
 public class Data {
     RestClient restClient;
-    String server="http://10.106.25.244:8080/RefugiApp/rest/AppTTA";
+    String server="http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
+    //192.168.0.24-- IP DE CASA
+    //IP CLASE 10.106.29.222
 
-    String pathUser="getUser?name=%s";
+    String pathUser="getUsuario?name=%s";
     String pathPhrase="getPhrases?type=%d";
+    String pathPhraseUser="getPhrasesUser?type=%d";
 
     public Data(){
         restClient = new RestClient(server);
     }
-    public Usuario getUser(String name, String password) throws IOException, JSONException {
+    public int getUser(String name) throws IOException, JSONException {
 
-        JSONObject o = restClient.getJson(String.format(pathUser,name));
-        JSONArray a=o.getJSONArray("users");
-        JSONObject objeto= a.getJSONObject(0);
-        String nombre= objeto.getString("name");
-        String pas=objeto.getString("password");
-        Usuario u = new Usuario(nombre,pas);
-        return u;
+       // int userId= restClient.getJson(String.format(pathUser,name));
+        return 1;
     }
 
     public Frase[] getPhrases(int type) throws IOException, JSONException {
@@ -44,19 +39,37 @@ public class Data {
             JSONObject objeto = a.getJSONObject(i);
             String fraseArabe = objeto.getString("phraseAr");
             String fraseEspanol = objeto.getString("phraseEs");
-            int userID = objeto.getInt("userId");
             String audioFrase = objeto.getString("audioFrase");
             fraseArray[i]=new Frase();
             fraseArray[i].setType(type);
             fraseArray[i].setPhraseEs(fraseEspanol);
             fraseArray[i].setPhraseAr(fraseArabe);
-            fraseArray[i].setUsersId(userID);
             fraseArray[i].setAudioFrase(audioFrase);
         }
         return fraseArray;
     }
-    public Boolean esCorrecto(String nameOriginal , String passwordOriginal,String nameRecogido, String passRecogido){
-        if (nameOriginal.equals(nameRecogido) && passwordOriginal.equals(passRecogido)){
+    public Frase[] getPhrasesUser(int userId) throws IOException, JSONException {
+
+        JSONObject o = restClient.getJson(String.format(pathPhraseUser, userId));
+        JSONArray a=o.getJSONArray("phrase");
+        Frase[] fraseArray=new Frase[a.length()];
+        for(int i=0;i<a.length();i++) {
+            JSONObject objeto = a.getJSONObject(i);
+            String fraseArabe = objeto.getString("phraseAr");
+            String fraseEspanol = objeto.getString("phraseEs");
+            String audioFrase = objeto.getString("audioFrase");
+            int type=objeto.getInt("type");
+            fraseArray[i]=new Frase();
+            fraseArray[i].setType(type);
+            fraseArray[i].setPhraseEs(fraseEspanol);
+            fraseArray[i].setPhraseAr(fraseArabe);
+            fraseArray[i].setAudioFrase(audioFrase);
+        }
+        return fraseArray;
+    }
+
+    public Boolean esCorrecto(int comprobacion){
+        if (comprobacion==200){
             return true;
         }
         else{
@@ -71,23 +84,24 @@ public class Data {
         return restClient.postJson(jo, "addUser");
     }
 
+    //Metodos POST
+    public int comproUser(String name, String pass) throws IOException, JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("name", name);
+        jo.put("password", pass);
 
+        return restClient.postJson(jo, "comprobarUser");
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //Metodos POST
+    public int postPhrase(String fraseEs,String fraseAr,int type,int userId) throws IOException, JSONException {
+        JSONObject jo = new JSONObject();
+        jo.put("fraseEs", fraseEs);
+        jo.put("fraseAr", fraseAr);
+        jo.put("type", type);
+        jo.put("userId", userId);
+        return restClient.postJson(jo, "comprobarUser");
+    }
 
     public Coordenadas[] getCoordenadas (String path) throws IOException,JSONException{
 
@@ -109,5 +123,4 @@ public class Data {
 
         return coordenadas;
     }
-
 }
