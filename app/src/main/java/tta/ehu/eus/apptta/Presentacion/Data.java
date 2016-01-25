@@ -13,6 +13,7 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
 
 public class Data {
     RestClient restClient;
+
     String server="http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
     //192.168.0.24-- IP DE CASA
     //IP CLASE 10.106.29.222
