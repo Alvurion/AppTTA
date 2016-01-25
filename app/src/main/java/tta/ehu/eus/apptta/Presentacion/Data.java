@@ -16,7 +16,7 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
  */
 public class Data {
     RestClient restClient;
-    String server="http://10.106.29.222:8080/RefugiApp/rest/AppTTA";
+    String server="http://10.106.25.244:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUser?name=%s";
     String pathPhrase="getPhrases?type=%d";
@@ -80,6 +80,15 @@ public class Data {
 
 
 
+
+
+
+
+
+
+
+
+
     public Coordenadas[] getCoordenadas (String path) throws IOException,JSONException{
 
         JSONObject o = restClient.getJson(String.format(path));
@@ -88,11 +97,15 @@ public class Data {
 
         // Recorrer el array de resultados y obtener de cada uno las coordenadas
 
-        /*for (int i=0; i<results.length();i++){
-            JSONObject geometry = results[i].getJSONObject("geometry");
+        for (int i=0; i<results.length();i++){
+            JSONObject objeto = results.getJSONObject(i);
+            JSONObject geometry = objeto.getJSONObject("geometry");
             JSONObject location = geometry.getJSONObject("location");
+            Double lat = location.getDouble("lat");
+            Double lng = location.getDouble("lng");
+            coordenadas[i].setLatitud(lat);
+            coordenadas[i].setLongitud(lng);
         }
-        */
 
         return coordenadas;
     }

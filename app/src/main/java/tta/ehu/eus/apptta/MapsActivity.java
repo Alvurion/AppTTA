@@ -13,6 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -45,30 +46,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /**
      * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         int zoom = 19;
         obtenerLocalizacion();
-        LatLng actual = new LatLng(latitud,longitud);
-        mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual"));
+        LatLng actual = new LatLng(latitud, longitud);
+        mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
         // Link funcional
         // https://maps.googleapis.com/maps/api/place/radarsearch/json?location=43.1699776,-2.6328183&radius=1000&keyword=panaderia&key=AIzaSyBsRFonYYpWr2R1nxMdtH-Mw-IgSOeyYmk&sensor=true
 
-        String query="panaderia"; //Estático, solo para pruebas, cambiado proximamente
-        String path = obtenerPathGMaps(latitud,longitud,query);
+        String query = "panaderia"; //Estático, solo para pruebas, cambiado proximamente
+        String path = obtenerPathGMaps(latitud, longitud, query);
 
         Data data = new Data();
         try {
             Coordenadas[] coordenadas = data.getCoordenadas(path);
+            for(int i=0; i<coordenadas.length; i++){
+                LatLng coordenada = new LatLng(coordenadas[i].getLatitud(), coordenadas[i].getLongitud());
+                mMap.addMarker(new MarkerOptions().position(coordenada).title(query + " " + (i + 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -82,15 +81,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Aquí se incluirían los diferentes markers para cada resultado obtenido, con addMarker.
 
-        mCamera = CameraUpdateFactory.newLatLngZoom(actual,zoom);
+        mCamera = CameraUpdateFactory.newLatLngZoom(actual, zoom);
         mMap.animateCamera(mCamera);
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
     }
 
 
-
     //Función para obtener la localización actual
-    private void obtenerLocalizacion() throws SecurityException{
+    private void obtenerLocalizacion() throws SecurityException {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -102,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String obtenerPathGMaps(double latitud, double longitud, String kw) {
         String peticionJson = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
         String location = "location=";
-        String locationValue = String.valueOf(latitud)+","+String.valueOf(longitud);
+        String locationValue = String.valueOf(latitud) + "," + String.valueOf(longitud);
         String radius = "radius=";
         String radiusValue = String.valueOf(1000);
         String keyword = "keyword=";
@@ -111,11 +109,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String keyValue = getResources().getString(R.string.google_maps_key);
         String sensor = "sensor=true";
 
-        String path=peticionJson+location+locationValue
-                +"&"+radius+radiusValue
-                +"&"+keyword+keywordValue
-                +"&"+key+keyValue
-                +"&"+sensor;
+        String path = peticionJson + location + locationValue
+                + "&" + radius + radiusValue
+                + "&" + keyword + keywordValue
+                + "&" + key + keyValue
+                + "&" + sensor;
 
         return path;
 
