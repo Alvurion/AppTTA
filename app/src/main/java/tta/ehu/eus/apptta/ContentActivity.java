@@ -14,6 +14,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.w3c.dom.Text;
+
 
 import org.json.JSONException;
 
@@ -40,6 +45,8 @@ public class ContentActivity extends AppCompatActivity {
 
         final int type = Integer.parseInt(opcion.replaceAll("[\\D]", ""));
 
+
+        //Character.getNumericValue(opcion.charAt(7));
 
         final Data data = new Data();
 
@@ -70,11 +77,9 @@ public class ContentActivity extends AppCompatActivity {
             }.start();
     }
 
-
-    public CardView crearCardView(Frase frase) {
-        CardView card = new CardView(new ContextThemeWrapper(ContentActivity.this, R.style.CardViewStyle), null, 0);
-        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(ContentActivity.this, R.style.Widget_CardContent));
-
+    public CardView crearCardView(Frase frase){
+        CardView card= new CardView(new ContextThemeWrapper(ContentActivity.this,R.style.CardViewStyle),null,0);
+        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(ContentActivity.this,R.style.Widget_CardContent));
 
         RelativeLayout.LayoutParams paramsMW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         int margin = 5;

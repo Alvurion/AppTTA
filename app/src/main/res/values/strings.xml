@@ -21,6 +21,8 @@
     <string name="incorrecto">Usuario o contraseña incorrectos, intente de nuevo</string>
     <string name="registroFallido">No se ha podido registrar al Usuario</string>
     <string name="exito">Te has registrado exitosamente</string>
+    <string name="title_activity_maps">Google Maps</string>
+    <string name="localizacion_actual">Localización actual</string>
     <string name="RememberPass">Recordar contraseña</string>
     <string name="RefiguApp">RefugiApp</string>
     <string name="LoginLabel">Login</string>
