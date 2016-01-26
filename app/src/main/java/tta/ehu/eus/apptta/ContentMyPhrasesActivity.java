@@ -63,5 +63,6 @@ public class ContentMyPhrasesActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PhraseRegisterActivity.class);
         intent.putExtra(EXTRA_LOGIN, login);
         startActivity(intent);
+        finish();
     }
 }

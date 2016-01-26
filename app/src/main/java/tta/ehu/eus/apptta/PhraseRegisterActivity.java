@@ -1,5 +1,6 @@
 package tta.ehu.eus.apptta;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import tta.ehu.eus.apptta.Modelo.Usuario;
 import tta.ehu.eus.apptta.Presentacion.Data;
@@ -26,6 +28,7 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
         login = (String) intent.getSerializableExtra(ContentMyPhrasesActivity.EXTRA_LOGIN);
     }
+
 
 
     public void registerPhrase(final View view) throws IOException, JSONException {
@@ -64,6 +67,7 @@ public class PhraseRegisterActivity extends AppCompatActivity {
                                 if (finalRespuesta == 200) {
                                     Toast.makeText(getApplicationContext(), R.string.exitoFrase, Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), R.string.registroFallidoFrase, Toast.LENGTH_SHORT).show();
                                 }

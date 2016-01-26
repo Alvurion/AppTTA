@@ -86,8 +86,8 @@ public class GeneradorCardView {
     public void play(View view,View layout) {
 
         //"http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA"
-        //String basePlay="http://u017633.ehu.eus:18080/RefugiApp/file/";
-        String basePlay="http://10.106.25.244:8080/RefugiApp/file/";
+        String basePlay="http://u017633.ehu.eus:18080/RefugiApp/file/";
+        //String basePlay="http://10.106.25.244:8080/RefugiApp/file/";
         String url= (String) view.getTag();
         String urlcompleta= basePlay+url;
         Uri uri = Uri.parse(urlcompleta);
