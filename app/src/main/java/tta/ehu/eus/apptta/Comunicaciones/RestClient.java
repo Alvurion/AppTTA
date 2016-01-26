@@ -28,20 +28,29 @@ public class RestClient {
     }
 
     public void setHttpBasicAuth(String user, String passwd) {
-        String basicAuth = Base64.encodeToString(String.format("%s:%s",user,passwd).getBytes(), Base64.DEFAULT);
+        String basicAuth = Base64.encodeToString(String.format("%s:%s", user, passwd).getBytes(), Base64.DEFAULT);
         setAuthorization(String.format("Basic %s", basicAuth));
     }
+
     public String getAuthorization() {
         return properties.get(AUTH);
     }
+
     public void setAuthorization(String auth) {
         properties.put(AUTH, auth);
     }
+
     public void setProperty(String name, String value) {
         properties.put(name, value);
     }
+
     private HttpURLConnection getConnection(String path) throws IOException {
-        URL url = new URL(String.format("%s/%s", baseUrl, path));
+        URL url = null;
+        if (path.contains("googleapis")) {
+            url = new URL(path);
+        } else {
+            url = new URL(String.format("%s/%s", baseUrl, path));
+        }
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         for (Map.Entry<String, String> property : properties.entrySet())
             conn.setRequestProperty(property.getKey(), property.getValue());
@@ -49,17 +58,24 @@ public class RestClient {
         //conn.setRequestProperty("Connection", "Keep-Alive");
         return conn;
     }
+
     public String getString(String path) throws IOException {
         HttpURLConnection conn = null;
+        String json = "";
         try {
             conn = getConnection(path);
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                return br.readLine();
+            final BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                json+=linea;
             }
+
         } finally {
             if (conn != null)
                 conn.disconnect();
         }
+        return json;
     }
 
     public JSONObject getJson(String path) throws IOException, JSONException {

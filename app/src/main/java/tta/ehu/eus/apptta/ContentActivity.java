@@ -26,7 +26,10 @@ import tta.ehu.eus.apptta.Vista.GeneradorCardView;
 public class ContentActivity extends AppCompatActivity {
 
     public final static String EXTRA_LOGIN="tta.ehu.eus.apptta.EXTRA_LOGIN";
+    public final static String EXTRA_TYPE="tta.ehu.eus.apptta.EXTRA_TYPE";
+
     public static String login;
+    public static String nombreType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,14 +40,9 @@ public class ContentActivity extends AppCompatActivity {
         final LinearLayout layout = (LinearLayout) findViewById(R.id.LinearContent);
 
         final int type = Integer.parseInt(opcion.replaceAll("[\\D]", ""));
-
-
-        //Character.getNumericValue(opcion.charAt(7));
+        nombreType = getType(type);
 
         final Data data = new Data();
-
-
-
 
             new Thread() {
                 @Override
@@ -52,7 +50,6 @@ public class ContentActivity extends AppCompatActivity {
                     try {
 
                         final Frase[] finalFraseArray = data.getPhrases(type);
-
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -76,6 +73,40 @@ public class ContentActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PhraseRegisterActivity.class);
         intent.putExtra(EXTRA_LOGIN,login);
         startActivity(intent);
+    }
+
+    public void abrirMapa(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra(EXTRA_TYPE,nombreType);
+        startActivity(intent);
+    }
+
+    public String getType(int type){
+        String t=null;
+        switch(type){
+            case 1:
+                t="Policia";
+                break;
+            case 2:
+                t="Ayuntamiento";
+                break;
+            case 3:
+                t="Supermercado";
+                break;
+            case 4:
+                t="Panadería";
+                break;
+            case 5:
+                t="Estación";
+                break;
+            case 6:
+                t="Farmacia";
+                break;
+            case 7:
+                t="Hospital";
+                break;
+        }
+        return t;
     }
 
 }
