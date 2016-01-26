@@ -4,9 +4,6 @@ public class Usuario {
 
     String name;
     String password;
-
-
-
     int userId;
 
     public Usuario(String name, String password, int userId){

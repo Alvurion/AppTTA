@@ -9,7 +9,6 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,60 +17,51 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import tta.ehu.eus.apptta.Modelo.Frase;
+import tta.ehu.eus.apptta.Modelo.Usuario;
 import tta.ehu.eus.apptta.Presentacion.Data;
 import tta.ehu.eus.apptta.Vista.AudioPlayer;
 
+public class ContentMyPhrasesActivity extends AppCompatActivity {
 
-public class ContentActivity extends AppCompatActivity {
 
     public final static String EXTRA_LOGIN="tta.ehu.eus.apptta.EXTRA_LOGIN";
     public static String login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content);
+        setContentView(R.layout.activity_content_my_phrases);
         Intent intent = getIntent();
-        String opcion = intent.getStringExtra(MenuActivity.EXTRA_ID);
         login= intent.getStringExtra(MenuActivity.EXTRA_LOGIN);
         final LinearLayout layout = (LinearLayout) findViewById(R.id.LinearContent);
-
-        final int type = Integer.parseInt(opcion.replaceAll("[\\D]", ""));
-
-
-        //Character.getNumericValue(opcion.charAt(7));
-
         final Data data = new Data();
 
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    final Usuario usuario= data.getUser(login);
+                    final int usersId =data.cogerId(usuario);
+                    final Frase[] finalFraseArray = data.getPhrasesUser(usersId);
 
 
-
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-
-                        final Frase[] finalFraseArray = data.getPhrases(type);
-
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                for (int i = 0; i < finalFraseArray.length; i++) {
-                                    CardView card = crearCardView(finalFraseArray[i]);
-                                    layout.addView(card);
-                                }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < finalFraseArray.length; i++) {
+                                CardView card = crearCardView(finalFraseArray[i]);
+                                layout.addView(card);
                             }
-                        });
-                    } catch (Exception e) {
-                        Log.e("ALERTA", e.getMessage(), e);
-                    }
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.e("ALERTA", e.getMessage(), e);
                 }
-            }.start();
+            }
+        }.start();
     }
-
     public CardView crearCardView(Frase frase){
-        CardView card= new CardView(new ContextThemeWrapper(ContentActivity.this,R.style.CardViewStyle),null,0);
-        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(ContentActivity.this,R.style.Widget_CardContent));
+        CardView card= new CardView(new ContextThemeWrapper(ContentMyPhrasesActivity.this,R.style.CardViewStyle),null,0);
+        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(ContentMyPhrasesActivity.this,R.style.Widget_CardContent));
 
         RelativeLayout.LayoutParams paramsMW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         int margin = 5;
@@ -82,7 +72,8 @@ public class ContentActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams paramsWW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams paramsWWPrueba= new RelativeLayout.LayoutParams(200,200);
         ImageButton ib = new ImageButton(this);
-        ib.setId('1');// El ID da igual que no fueran unicos solo importa que sea positivo según la documentación del tipo View
+        // El ID da igual que no fueran unicos solo importa que sea positivo según la documentación del tipo View
+        ib.setId('1');
         int ID_IB = ib.getId();
         ib.setTag(frase.getAudioFrase());
         ib.setLayoutParams(paramsWWPrueba);
@@ -144,8 +135,7 @@ public class ContentActivity extends AppCompatActivity {
     }
     public void registerPhrase(View view) {
         Intent intent = new Intent(this, PhraseRegisterActivity.class);
-        intent.putExtra(EXTRA_LOGIN,login);
+        intent.putExtra(EXTRA_LOGIN, login);
         startActivity(intent);
     }
-
 }

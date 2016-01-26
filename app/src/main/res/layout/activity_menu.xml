@@ -222,7 +222,7 @@
             android:id="@+id/card_8"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:onClick="content"
+            android:onClick="mycontent"
             card_view:cardCornerRadius="6dp"
             card_view:cardElevation="10dp"
             card_view:cardPreventCornerOverlap="false"

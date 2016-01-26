@@ -14,21 +14,25 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
 public class Data {
     RestClient restClient;
 
-    String server="http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
+    //String server="http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
     //192.168.0.24-- IP DE CASA
     //IP CLASE 10.106.29.222
+    String server="http://10.106.25.244:8080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUsuario?name=%s";
     String pathPhrase="getPhrases?type=%d";
-    String pathPhraseUser="getPhrasesUser?type=%d";
+    String pathPhraseUser="getPhrasesUser?idUser=%d";
 
     public Data(){
         restClient = new RestClient(server);
     }
-    public int getUser(String name) throws IOException, JSONException {
+    public Usuario getUser(String name) throws IOException, JSONException {
 
-       // int userId= restClient.getJson(String.format(pathUser,name));
-        return 1;
+        JSONObject o= restClient.getJson(String.format(pathUser, name));
+        Usuario usuario=new Usuario();
+        usuario.setName(o.getString("name"));
+        usuario.setUserId(o.getInt("userId"));
+        return usuario;
     }
 
     public Frase[] getPhrases(int type) throws IOException, JSONException {
@@ -52,19 +56,18 @@ public class Data {
     public Frase[] getPhrasesUser(int userId) throws IOException, JSONException {
 
         JSONObject o = restClient.getJson(String.format(pathPhraseUser, userId));
-        JSONArray a=o.getJSONArray("phrase");
+        JSONArray a=o.getJSONArray("content");
         Frase[] fraseArray=new Frase[a.length()];
         for(int i=0;i<a.length();i++) {
             JSONObject objeto = a.getJSONObject(i);
-            String fraseArabe = objeto.getString("phraseAr");
-            String fraseEspanol = objeto.getString("phraseEs");
-            String audioFrase = objeto.getString("audioFrase");
+            String fraseArabe = objeto.getString("fraseAr");
+            String fraseEspanol = objeto.getString("fraseEs");
             int type=objeto.getInt("type");
             fraseArray[i]=new Frase();
             fraseArray[i].setType(type);
             fraseArray[i].setPhraseEs(fraseEspanol);
             fraseArray[i].setPhraseAr(fraseArabe);
-            fraseArray[i].setAudioFrase(audioFrase);
+            fraseArray[i].setAudioFrase("buenos_dias.mp3");
         }
         return fraseArray;
     }
@@ -76,6 +79,11 @@ public class Data {
         else{
             return false;
         }
+    }
+
+    public int cogerId(Usuario usuario){
+        int id =usuario.getUserId();
+        return id;
     }
     //Metodos POST
     public int postUser(String name, String pass) throws IOException, JSONException {
@@ -100,8 +108,8 @@ public class Data {
         jo.put("fraseEs", fraseEs);
         jo.put("fraseAr", fraseAr);
         jo.put("type", type);
-        jo.put("userId", userId);
-        return restClient.postJson(jo, "comprobarUser");
+        jo.put("usersId", userId);
+        return restClient.postJson(jo, "addPhrase");
     }
 
     public Coordenadas[] getCoordenadas (String path) throws IOException,JSONException{

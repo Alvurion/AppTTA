@@ -38,12 +38,12 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         rg.clearCheck();
         rg.check(R.id.op1);
         int idSeleccionado = rg.getCheckedRadioButtonId();
-        final int type = idSeleccionado + 1;
+        final int type = 1;
         final Data data = new Data();
 
 
 
-        final Intent intent = new Intent(this, ContentActivity.class);
+        final Intent intent = new Intent(this, MenuActivity.class);
 
 
         if (fraseEsp.isEmpty() || fraseArb.isEmpty()) {
@@ -54,8 +54,9 @@ public class PhraseRegisterActivity extends AppCompatActivity {
                 public void run() {
                     Integer respuesta = null;
                     try {
-                        final int userId = data.getUser(login);
-                        respuesta = data.postPhrase(fraseEsp, fraseArb, type, userId);
+                        final Usuario usuario= data.getUser(login);
+                        final int usersId =data.cogerId(usuario);
+                       respuesta = data.postPhrase(fraseEsp, fraseArb, type, usersId);
                     } catch (Exception e) {
                         Log.e("ALERTA", e.getMessage(), e);
                     } finally {

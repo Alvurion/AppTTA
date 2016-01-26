@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+
 
 public class MenuActivity extends AppCompatActivity {
 
-     public final static String EXTRA_ID="tta.ehu.eus.apptta.EXTRA_ID";
+    public final static String EXTRA_ID="tta.ehu.eus.apptta.EXTRA_ID";
     public final static String EXTRA_LOGIN="tta.ehu.eus.apptta.EXTRA_LOGIN";
     public static String login;
 
@@ -29,5 +28,11 @@ public class MenuActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_LOGIN, login);
         startActivity(intent);
     }
-
+    public void mycontent(View view) {
+        String idCardView= view.getResources().getResourceName(view.getId());
+        Intent intent= new Intent(this,ContentMyPhrasesActivity.class);
+        intent.putExtra(EXTRA_ID, idCardView);
+        intent.putExtra(EXTRA_LOGIN, login);
+        startActivity(intent);
+    }
 }
