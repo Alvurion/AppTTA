@@ -16,7 +16,7 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
 import tta.ehu.eus.apptta.Presentacion.Data;
 
 public class PhraseRegisterActivity extends AppCompatActivity {
-
+    public final static String EXTRA_LOGIN="tta.ehu.eus.apptta.EXTRA_LOGIN";
     public static String login;
 
     @Override
@@ -24,8 +24,9 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phrase_register);
         Intent intent = getIntent();
-        login = (String) intent.getSerializableExtra(ContentActivity.EXTRA_LOGIN);
+        login = (String) intent.getSerializableExtra(ContentMyPhrasesActivity.EXTRA_LOGIN);
     }
+
 
     public void registerPhrase(final View view) throws IOException, JSONException {
         //Recogemos las variables que queremos comprobar
@@ -33,13 +34,13 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         final String fraseEsp = f.getText().toString();
         EditText f1 = (EditText) findViewById(R.id.fraseArb);
         final String fraseArb = f1.getText().toString();
-
         final int type = 1;
         final Data data = new Data();
 
 
 
-        final Intent intent = new Intent(this, MenuActivity.class);
+        final Intent intent = new Intent(this, ContentMyPhrasesActivity.class);
+        intent.putExtra(EXTRA_LOGIN,login);
 
 
         if (fraseEsp.isEmpty() || fraseArb.isEmpty()) {
