@@ -10,12 +10,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import java.io.IOException;
 
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Presentacion.Data;

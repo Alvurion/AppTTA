@@ -46,15 +46,6 @@
         android:layout_gravity="center"
         android:text="Grabar audio"/>
 
-    <Button
-        android:id="@+id/botonPauseRecordAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/pause"
-        android:drawablePadding="5dp"
-        android:onClick="pauseRecordAudio"
-        android:layout_gravity="center"
-        android:text="Dejar de grabar"/>
 
     <Button
         android:id="@+id/botonRegistrarFrase"

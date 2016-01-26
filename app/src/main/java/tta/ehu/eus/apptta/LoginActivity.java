@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void run() {
                                 if (finalComprobacion) {
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), R.string.incorrecto, Toast.LENGTH_SHORT).show();
                                 }

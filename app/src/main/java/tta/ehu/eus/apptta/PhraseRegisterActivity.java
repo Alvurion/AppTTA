@@ -49,7 +49,6 @@ public class PhraseRegisterActivity extends AppCompatActivity {
     }
 
     public void recordAudio(View view) throws IOException {
-        String path="";
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)){
             Toast.makeText(getApplicationContext(),R.string.noMicrophone,Toast.LENGTH_SHORT).show();
 
@@ -69,37 +68,36 @@ public class PhraseRegisterActivity extends AppCompatActivity {
 
         }
 
-            Button parar = (Button)findViewById(R.id.botonPauseRecordAudio);
-            parar.setVisibility(View.VISIBLE);
     }
 
 
     public void registerPhrase(final View view) throws IOException, JSONException {
         //Recogemos las variables que queremos comprobar
         EditText f = (EditText) findViewById(R.id.fraseEsp);
-        final String fraseEsp = f.getText().toString();
         EditText f1 = (EditText) findViewById(R.id.fraseArb);
+
+        final String fraseEsp = f.getText().toString();
         final String fraseArb = f1.getText().toString();
         final int type = 1;
         final Data data = new Data();
 
-        String archivo = fraseEsp.replaceAll("\\s","")+".wav";
+        final String archivo = fraseEsp.replaceAll("\\s","")+".wav";
 
         String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         String dirPathOrigen = absolutePath+"/SoundRecorder"; //Aqui se encuentran los audios que se graban.
 
         String dirPathDestinoRefugiApp = absolutePath+"/RefugiApp/";
         File newFileDirectory = new File(dirPathDestinoRefugiApp);
-        boolean success1 = true;
+
         if (!newFileDirectory.exists()) {
-            success1 = newFileDirectory.mkdir();
+           newFileDirectory.mkdir();
         }
 
         String dirPathDestinoArchivo = dirPathDestinoRefugiApp+login;
         File newFileArchivo = new File(dirPathDestinoArchivo);
-        boolean success2 = true;
+
         if (!newFileArchivo.exists()) {
-            success2 = newFileArchivo.mkdir();
+            newFileArchivo.mkdir();
         }
 
         File dir = new File(dirPathOrigen);
@@ -114,6 +112,7 @@ public class PhraseRegisterActivity extends AppCompatActivity {
 
         File newFile = new File(dirPathDestinoArchivo,archivo);
         lastModifiedFile.renameTo(newFile);
+        final String pathAudio=dirPathDestinoArchivo+"/"+archivo;
 
         final Intent intent = new Intent(this, ContentMyPhrasesActivity.class);
         intent.putExtra(EXTRA_LOGIN,login);
@@ -128,7 +127,7 @@ public class PhraseRegisterActivity extends AppCompatActivity {
                     try {
                         final Usuario usuario= data.getUser(login);
                         final int usersId =data.cogerId(usuario);
-                       respuesta = data.postPhrase(fraseEsp, fraseArb, type, usersId);
+                       respuesta = data.postPhrase(fraseEsp, fraseArb, type, usersId,pathAudio);
                     } catch (Exception e) {
                         Log.e("ALERTA", e.getMessage(), e);
                     } finally {

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import tta.ehu.eus.apptta.Comunicaciones.RestClient;
+import tta.ehu.eus.apptta.Modelo.Content;
 import tta.ehu.eus.apptta.Modelo.Coordenadas;
 import tta.ehu.eus.apptta.Modelo.Establecimiento;
 import tta.ehu.eus.apptta.Modelo.Frase;
@@ -15,9 +16,9 @@ import tta.ehu.eus.apptta.Modelo.Usuario;
 public class Data {
     RestClient restClient;
 
-    //String server = "http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
     //192.168.0.24-- IP DE CASA
     //IP CLASE 10.106.29.222
+    //String server="http://10.106.25.244:8080/RefugiApp/rest/AppTTA";
     String server="http://u017633.ehu.eus:18080/RefugiApp/rest/AppTTA";
 
     String pathUser="getUsuario?name=%s";
@@ -55,21 +56,23 @@ public class Data {
         return fraseArray;
     }
 
-    public Frase[] getPhrasesUser(int userId) throws IOException, JSONException {
+
+    public Content[] getContentUser(int userId) throws IOException, JSONException {
 
         JSONObject o = restClient.getJson(String.format(pathPhraseUser, userId));
         JSONArray a=o.getJSONArray("content");
-        Frase[] fraseArray=new Frase[a.length()];
+        Content[] fraseArray=new Content[a.length()];
         for(int i=0;i<a.length();i++) {
             JSONObject objeto = a.getJSONObject(i);
             String fraseArabe = objeto.getString("fraseAr");
             String fraseEspanol = objeto.getString("fraseEs");
+            String audio=objeto.getString("audio");
             int type=objeto.getInt("type");
-            fraseArray[i]=new Frase();
+            fraseArray[i]=new Content();
             fraseArray[i].setType(type);
             fraseArray[i].setPhraseEs(fraseEspanol);
             fraseArray[i].setPhraseAr(fraseArabe);
-            fraseArray[i].setAudioFrase("buenos_dias.mp3");
+            fraseArray[i].setAudioFrase(audio);
         }
         return fraseArray;
     }
@@ -105,12 +108,13 @@ public class Data {
     }
 
     //Metodos POST
-    public int postPhrase(String fraseEs, String fraseAr, int type, int userId) throws IOException, JSONException {
+    public int postPhrase(String fraseEs, String fraseAr, int type, int userId, String audio) throws IOException, JSONException {
         JSONObject jo = new JSONObject();
         jo.put("fraseEs", fraseEs);
         jo.put("fraseAr", fraseAr);
         jo.put("type", type);
         jo.put("usersId", userId);
+        jo.put("audio",audio);
         return restClient.postJson(jo, "addPhrase");
     }
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import tta.ehu.eus.apptta.Modelo.Content;
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.Modelo.Usuario;
 import tta.ehu.eus.apptta.Presentacion.Data;
@@ -42,13 +43,13 @@ public class ContentMyPhrasesActivity extends AppCompatActivity {
                 try {
                     final Usuario usuario= data.getUser(login);
                     final int usersId =data.cogerId(usuario);
-                    final Frase[] finalFraseArray = data.getPhrasesUser(usersId);
+                    final Content[] finalFraseArray = data.getContentUser(usersId);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             for (int i = 0; i < finalFraseArray.length; i++) {
                                 GeneradorCardView gen=new GeneradorCardView();
-                                CardView card = gen.crearCardView(finalFraseArray[i],ContentMyPhrasesActivity.this,layout);
+                                CardView card = gen.crearCardView2(finalFraseArray[i], ContentMyPhrasesActivity.this, layout);
                                 layout.addView(card);
                             }
                         }
