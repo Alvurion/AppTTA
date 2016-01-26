@@ -15,6 +15,7 @@ import java.io.IOException;
 import tta.ehu.eus.apptta.Modelo.Frase;
 import tta.ehu.eus.apptta.R;
 
+
 public class GeneradorCardView {
 
     public GeneradorCardView(){
@@ -24,7 +25,7 @@ public class GeneradorCardView {
 
     public CardView crearCardView(Frase frase,Context context, final View layout){
         CardView card= new CardView(new ContextThemeWrapper(context, R.style.CardViewStyle),null,0);
-        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(context,R.style.Widget_CardContent));
+        RelativeLayout cardInner = new RelativeLayout(new ContextThemeWrapper(context, R.style.Widget_CardContent));
 
         RelativeLayout.LayoutParams paramsMW = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         int margin = 5;
@@ -64,8 +65,8 @@ public class GeneradorCardView {
 
         TextView tvAr = new TextView(context);
         RelativeLayout.LayoutParams paramsWW3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        paramsWW3.addRule(cardInner.RIGHT_OF, ID_IB);
-        paramsWW3.addRule(cardInner.BELOW, ID_TvES);
+        paramsWW3.addRule(RelativeLayout.RIGHT_OF, ID_IB);
+        paramsWW3.addRule(RelativeLayout.BELOW, ID_TvES);
         tvAr.setLayoutParams(paramsWW3);
         tvAr.setText(frase.getPhraseAr());
         tvAr.setTextSize(15);

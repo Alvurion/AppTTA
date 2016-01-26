@@ -13,15 +13,20 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 public class RestClient {
     private final static String AUTH = "Authorization";
     private final String baseUrl;
     private final Map<String, String> properties = new HashMap<>();
+
+
 
     public RestClient(String baseUrl) {
         this.baseUrl = baseUrl;

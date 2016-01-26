@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -34,10 +33,7 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         final String fraseEsp = f.getText().toString();
         EditText f1 = (EditText) findViewById(R.id.fraseArb);
         final String fraseArb = f1.getText().toString();
-        RadioGroup rg = (RadioGroup) findViewById(R.id.RG);
-        rg.clearCheck();
-        rg.check(R.id.op1);
-        int idSeleccionado = rg.getCheckedRadioButtonId();
+
         final int type = 1;
         final Data data = new Data();
 

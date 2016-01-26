@@ -11,12 +11,7 @@
     tools:context="tta.ehu.eus.apptta.PhraseRegisterActivity">
 
 
-    <Button
-        android:id="@+id/botonRegistrarFrase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="registerPhrase"
-        android:text="Enviar"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,47 +36,15 @@
         android:layout_height="wrap_content"
         android:hint="@string/fraseArb" />
 
-    <RadioGroup android:id="@+id/RG"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <RadioButton android:id="@+id/op1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Policia" />
-
-        <RadioButton android:id="@+id/op2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Ayuntamiento" />
-
-        <RadioButton android:id="@+id/op3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Supermercado" />
-
-        <RadioButton android:id="@+id/op4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Panaderia" />
-
-        <RadioButton android:id="@+id/op5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Estacion" />
-
-        <RadioButton android:id="@+id/op6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Farmacia" />
-
-        <RadioButton android:id="@+id/op7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Hospital" />
-    </RadioGroup>
-
+    <Button
+        android:id="@+id/botonRegistrarFrase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/databaseplus"
+        android:drawablePadding="5dp"
+        android:onClick="registerPhrase"
+        android:layout_gravity="center"
+        android:text="Enviar"/>
 
 
 

@@ -34,5 +34,6 @@
     <string name="RegistrarFrase">Registrar frase</string>
     <string name="exitoFrase">El registro de la frase ha ido bien</string>
     <string name="registroFallidoFrase">La frase no se ha registrado</string>
+    <string name="title_activity_maps">GoogleMaps</string>
 
 </resources>
