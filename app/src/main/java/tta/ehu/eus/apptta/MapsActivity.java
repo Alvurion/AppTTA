@@ -67,7 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // https://maps.googleapis.com/maps/api/place/radarsearch/json?location=43.1699776,-2.6328183&radius=1000&keyword=panaderia&key=AIzaSyBsRFonYYpWr2R1nxMdtH-Mw-IgSOeyYmk&sensor=true
 
         final String path = obtenerPathGMaps(latitud, longitud, query);
-        final String path2 = obtenerPathGMapsIndividual(placeid);
 
         final Data data = new Data();
 
@@ -81,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),"Encontrados: "+String.valueOf(coordenadas.length),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Encontrados: "+String.valueOf(coordenadas.length),Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -139,6 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         En caso de que obtengamos una localización nula, ponemos la localización en la escuela
         */
         if (myLocation == null) {
+            Toast.makeText(getApplicationContext(),"SIN LOCALIZACION",Toast.LENGTH_SHORT).show();
             // Puerta del sol
             //latitud=40.4169514;
             //longitud=-3.7057172;
@@ -147,6 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latitud = 43.2624006;
             longitud = -2.9484819;
         } else {
+            Toast.makeText(getApplicationContext(),"CON LOCALIZACION :)))))",Toast.LENGTH_SHORT).show();
             latitud = myLocation.getLatitude();
             longitud = myLocation.getLongitude();
         }

@@ -37,6 +37,26 @@
         android:hint="@string/fraseArb" />
 
     <Button
+        android:id="@+id/botonGrabarAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/microphone"
+        android:drawablePadding="5dp"
+        android:onClick="recordAudio"
+        android:layout_gravity="center"
+        android:text="Grabar audio"/>
+
+    <Button
+        android:id="@+id/botonPauseRecordAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/pause"
+        android:drawablePadding="5dp"
+        android:onClick="pauseRecordAudio"
+        android:layout_gravity="center"
+        android:text="Dejar de grabar"/>
+
+    <Button
         android:id="@+id/botonRegistrarFrase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +64,8 @@
         android:drawablePadding="5dp"
         android:onClick="registerPhrase"
         android:layout_gravity="center"
-        android:text="Enviar"/>
+        android:text="Enviar"
+        android:textSize="20dp"/>
 
 
 
