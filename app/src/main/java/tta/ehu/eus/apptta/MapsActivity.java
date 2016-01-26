@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import tta.ehu.eus.apptta.Modelo.Coordenadas;
 import tta.ehu.eus.apptta.Modelo.Establecimiento;
@@ -32,8 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private CameraUpdate mCamera;
 
-    private double latitud;
-    private double longitud;
+    public double latitud;
+    public double longitud;
 
     public String query = null;
     public String placeid = null;
@@ -56,10 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        int zoom = 19;
+        int zoom = 13;
         obtenerLocalizacion();
         LatLng actual = new LatLng(latitud, longitud);
-        mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        //mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
         // Link funcional
         // https://maps.googleapis.com/maps/api/place/radarsearch/json?location=43.1699776,-2.6328183&radius=1000&keyword=panaderia&key=AIzaSyBsRFonYYpWr2R1nxMdtH-Mw-IgSOeyYmk&sensor=true
@@ -74,7 +76,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void run() {
 
                 try {
-                    Coordenadas[] coordenadas = data.getCoordenadas(path);
+                    final Coordenadas[] coordenadas = data.getCoordenadas(path);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"Encontrados: "+String.valueOf(coordenadas.length),Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     for (int i = 0; i < coordenadas.length; i++) {
                         String path2 = obtenerPathGMapsIndividual(coordenadas[i].getPlace_id());
@@ -83,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mMap.addMarker(new MarkerOptions().position(coordenada).title(est.getName()).snippet(est.getAddress()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                mMap.addMarker(new MarkerOptions().position(coordenada).title(est.getName()).snippet(est.getAddress()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                             }
                         });
                     }
@@ -101,20 +110,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Aquí se incluirían los diferentes markers para cada resultado obtenido, con addMarker.
 
+        mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+
         mCamera = CameraUpdateFactory.newLatLngZoom(actual, zoom);
         mMap.animateCamera(mCamera);
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
     }
 
-
     //Función para obtener la localización actual
     private void obtenerLocalizacion() throws SecurityException {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
         String provider = locationManager.getBestProvider(criteria, true);
-        Location myLocation = locationManager.getLastKnownLocation(provider);
-        latitud = myLocation.getLatitude();
-        longitud = myLocation.getLongitude();
+
+        LocationManager mLocationManager=null;
+        Location myLocation = getLastKnownLocation(mLocationManager);
+
+        //Location myLocation = locationManager.getLastKnownLocation(provider);
+
+        /*
+        En caso de que obtengamos una localización nula, ponemos la localización en la escuela
+        */
+        if (myLocation == null) {
+            // Puerta del sol
+            //latitud=40.4169514;
+            //longitud=-3.7057172;
+
+            // ETSIB
+            latitud = 43.2624006;
+            longitud = -2.9484819;
+        } else {
+            latitud = myLocation.getLatitude();
+            longitud = myLocation.getLongitude();
+        }
+
+
     }
 
     private String obtenerPathGMaps(double latitud, double longitud, String kw) {
@@ -151,5 +188,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return path;
 
+    }
+
+    private Location getLastKnownLocation(LocationManager mLocationManager) throws SecurityException {
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 }
