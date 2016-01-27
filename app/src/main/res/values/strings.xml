@@ -7,7 +7,7 @@
     <string name="login">Login</string>
     <string name="register">Registrar</string>
     <string name="passwordCheck">Repita contraseña</string>
-    <string name="CampoVacio">Existen campos sin rellenar</string>
+    <string name="CampoVacio">Existen campos sin rellenar, vuelve a grabar audio</string>
     <string name="sinImplementar">Estamos trabajando en ello</string>
     <string name="noCoincide">No coinciden las contraseñas introducidas</string>
     <string name="Menu">Entrar</string>
@@ -41,5 +41,8 @@
     <string name="sinLocalizacion">Sin localización, mostrando ETSIB</string>
     <string name="conLocalizacion">Con localización. Obteniendo última posición conocida</string>
     <string name="encontrados">Encontrados</string>
+    <string name="carpeta">Introduce carpeta</string>
+    <string name="grabador">Introduce el nombre del grabador</string>
+    <string name="ejemploGrabador">Ejemplo: SoundRecorder</string>
 
 </resources>

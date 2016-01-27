@@ -2,8 +2,10 @@ package tta.ehu.eus.apptta.Presentador.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +25,9 @@ import tta.ehu.eus.apptta.R;
 
 public class PhraseRegisterActivity extends AppCompatActivity {
     public final static String EXTRA_LOGIN = "tta.ehu.eus.apptta.EXTRA_LOGIN";
+    public final static String EXTRA_FOLDER = "tta.ehu.eus.apptta.EXTRA_FOLDER";
+
+
     public String login;
 
     MediaRecorder recorder;
@@ -42,6 +47,11 @@ public class PhraseRegisterActivity extends AppCompatActivity {
 
         Button registrar = (Button) findViewById(R.id.botonRegistrarFrase);
         registrar.setVisibility(View.INVISIBLE);
+
+        EditText c = (EditText)findViewById(R.id.etCarpeta);
+
+        String ca = getCarpeta();
+        c.setText(ca);
 
 
     }
@@ -72,19 +82,25 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         //Recogemos las variables que queremos comprobar
         EditText f = (EditText) findViewById(R.id.fraseEsp);
         EditText f1 = (EditText) findViewById(R.id.fraseArb);
+        EditText c = (EditText)findViewById(R.id.etCarpeta);
 
         final String fraseEsp = f.getText().toString();
         final String fraseArb = f1.getText().toString();
+        final String carpeta = c.getText().toString();
+
         final int type = 1;
         final Data data = new Data();
-        final String pathAudio = data.crearAudio(login, fraseEsp);
+
+        final String pathAudio = data.crearAudio(login, fraseEsp, carpeta);
 
         final Intent intent = new Intent(this, ContentMyPhrasesActivity.class);
         intent.putExtra(EXTRA_LOGIN, login);
+        setCarpeta(carpeta);
 
-        if (fraseEsp.isEmpty() || fraseArb.isEmpty()) {
+        if (fraseEsp.isEmpty() || fraseArb.isEmpty()  || carpeta.isEmpty()) {
             Toast.makeText(this, R.string.CampoVacio, Toast.LENGTH_SHORT).show();
         } else {
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -122,12 +138,25 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         if (resultCode != Activity.RESULT_OK)
             return;
         else {
+
             Button grabar = (Button) findViewById(R.id.botonGrabarAudio);
             grabar.setVisibility(View.GONE);
 
             Button registrar = (Button) findViewById(R.id.botonRegistrarFrase);
             registrar.setVisibility(View.VISIBLE);
         }
+    }
+
+    private String getCarpeta() {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        return prefs.getString(EXTRA_FOLDER, null);
+    }
+
+    private void setCarpeta(String carpeta) {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(EXTRA_FOLDER, carpeta);
+        editor.commit();
     }
 }
 

@@ -36,6 +36,18 @@
         android:layout_height="wrap_content"
         android:hint="@string/fraseArb" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/grabador"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/etCarpeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/ejemploGrabador" />
+
     <Button
         android:id="@+id/botonGrabarAudio"
         android:layout_width="wrap_content"

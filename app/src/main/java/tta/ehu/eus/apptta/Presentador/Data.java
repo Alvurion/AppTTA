@@ -2,6 +2,7 @@ package tta.ehu.eus.apptta.Presentador;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.os.EnvironmentCompat;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -185,11 +186,11 @@ public class Data {
         return t;
     }
 
-    public String crearAudio(String login, String fraseEsp) {
+    public String crearAudio(String login, String fraseEsp, String carpetaAudio) {
         final String archivo = fraseEsp.replaceAll("\\s", "") + ".wav";
 
         String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String dirPathOrigen = absolutePath + "/SoundRecorder"; //Aqui se encuentran los audios que se graban.
+        String dirPathOrigen = absolutePath + "/" +carpetaAudio; //Aqui se encuentran los audios que se graban.
 
         String dirPathDestinoRefugiApp = absolutePath + "/RefugiApp/";
         File newFileDirectory = new File(dirPathDestinoRefugiApp);
