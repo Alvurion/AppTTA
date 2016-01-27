@@ -4,14 +4,11 @@ public class Establecimiento {
     String name;
     String address;
 
-    public Establecimiento(String name, String address){
-        this.name=name;
-        this.address=address;
+    public Establecimiento(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 
-    public Establecimiento(){
-
-    }
 
     public String getName() {
         return name;

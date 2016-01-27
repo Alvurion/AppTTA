@@ -1,9 +1,11 @@
-package tta.ehu.eus.apptta;
+package tta.ehu.eus.apptta.Presentador.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import tta.ehu.eus.apptta.R;
 
 public class MainActivity extends AppCompatActivity {
     @Override

@@ -1,7 +1,8 @@
-package tta.ehu.eus.apptta.Comunicaciones;
+package tta.ehu.eus.apptta.Modelo.Comunicaciones;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,10 +14,8 @@ import java.util.Map;
 
 
 public class RestClient {
-    private final static String AUTH = "Authorization";
     private final String baseUrl;
     private final Map<String, String> properties = new HashMap<>();
-
 
 
     public RestClient(String baseUrl) {
@@ -25,7 +24,7 @@ public class RestClient {
 
 
     private HttpURLConnection getConnection(String path) throws IOException {
-        URL url = null;
+        URL url;
         if (path.contains("googleapis")) {
             url = new URL(path);
         } else {
@@ -48,7 +47,7 @@ public class RestClient {
 
             String linea;
             while ((linea = br.readLine()) != null) {
-                json+=linea;
+                json += linea;
             }
 
         } finally {

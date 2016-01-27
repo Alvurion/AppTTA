@@ -18,7 +18,7 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
         this.view = view;
         player = new MediaPlayer();
         player.setOnPreparedListener(this);
-        controller = new MediaController(view.getContext()) {
+        controller = new MediaController(view.getContext(), false) {
             @Override
             public boolean dispatchKeyEvent(KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
@@ -42,6 +42,7 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
         player.prepare();
         player.start();
     }
+
 
     @Override
     public void start() {
@@ -77,7 +78,7 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public int getBufferPercentage() {
-        int bufferPercentage = getCurrentPosition()*100/getDuration();
+        int bufferPercentage = getCurrentPosition() * 100 / getDuration();
         return bufferPercentage;
     }
 

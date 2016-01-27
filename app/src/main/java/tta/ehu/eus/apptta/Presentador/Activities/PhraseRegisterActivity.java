@@ -1,10 +1,9 @@
-package tta.ehu.eus.apptta;
+package tta.ehu.eus.apptta.Presentador.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +15,15 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import tta.ehu.eus.apptta.Modelo.Usuario;
-import tta.ehu.eus.apptta.Presentacion.Data;
+import tta.ehu.eus.apptta.Presentador.Data;
+import tta.ehu.eus.apptta.R;
 
 public class PhraseRegisterActivity extends AppCompatActivity {
-    public final static String EXTRA_LOGIN="tta.ehu.eus.apptta.EXTRA_LOGIN";
-    public static String login;
+    public final static String EXTRA_LOGIN = "tta.ehu.eus.apptta.EXTRA_LOGIN";
+    public String login;
 
     MediaRecorder recorder;
 
@@ -39,31 +37,30 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
         login = (String) intent.getSerializableExtra(ContentMyPhrasesActivity.EXTRA_LOGIN);
 
-        Button grabar = (Button)findViewById(R.id.botonGrabarAudio);
+        Button grabar = (Button) findViewById(R.id.botonGrabarAudio);
         grabar.setVisibility(View.VISIBLE);
 
-        Button registrar = (Button)findViewById(R.id.botonRegistrarFrase);
+        Button registrar = (Button) findViewById(R.id.botonRegistrarFrase);
         registrar.setVisibility(View.INVISIBLE);
 
 
     }
 
     public void recordAudio(View view) throws IOException {
-        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)){
-            Toast.makeText(getApplicationContext(),R.string.noMicrophone,Toast.LENGTH_SHORT).show();
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
+            Toast.makeText(getApplicationContext(), R.string.noMicrophone, Toast.LENGTH_SHORT).show();
 
-            Button grabar = (Button)findViewById(R.id.botonGrabarAudio);
-            grabar.setCompoundDrawablesWithIntrinsicBounds( R.drawable.nomicrophone, 0, 0, 0);
+            Button grabar = (Button) findViewById(R.id.botonGrabarAudio);
+            grabar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.nomicrophone, 0, 0, 0);
             grabar.setClickable(false);
 
             return;
-        }else{
-            Intent intent= new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-            if(intent.resolveActivity(getPackageManager())!=null){
+        } else {
+            Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+            if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(intent, 0);
-            }
-            else{
-                Toast.makeText(this,"no tienes app para grabar",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "no tienes app para grabar", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -80,42 +77,10 @@ public class PhraseRegisterActivity extends AppCompatActivity {
         final String fraseArb = f1.getText().toString();
         final int type = 1;
         final Data data = new Data();
-
-        final String archivo = fraseEsp.replaceAll("\\s","")+".wav";
-
-        String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String dirPathOrigen = absolutePath+"/SoundRecorder"; //Aqui se encuentran los audios que se graban.
-
-        String dirPathDestinoRefugiApp = absolutePath+"/RefugiApp/";
-        File newFileDirectory = new File(dirPathDestinoRefugiApp);
-
-        if (!newFileDirectory.exists()) {
-           newFileDirectory.mkdir();
-        }
-
-        String dirPathDestinoArchivo = dirPathDestinoRefugiApp+login;
-        File newFileArchivo = new File(dirPathDestinoArchivo);
-
-        if (!newFileArchivo.exists()) {
-            newFileArchivo.mkdir();
-        }
-
-        File dir = new File(dirPathOrigen);
-        File[] files = dir.listFiles();
-
-        File lastModifiedFile = files[0];
-        for (int i = 1; i < files.length; i++) {
-            if (lastModifiedFile.lastModified() < files[i].lastModified()) {
-                lastModifiedFile = files[i];
-            }
-        }
-
-        File newFile = new File(dirPathDestinoArchivo,archivo);
-        lastModifiedFile.renameTo(newFile);
-        final String pathAudio=dirPathDestinoArchivo+"/"+archivo;
+        final String pathAudio = data.crearAudio(login, fraseEsp);
 
         final Intent intent = new Intent(this, ContentMyPhrasesActivity.class);
-        intent.putExtra(EXTRA_LOGIN,login);
+        intent.putExtra(EXTRA_LOGIN, login);
 
         if (fraseEsp.isEmpty() || fraseArb.isEmpty()) {
             Toast.makeText(this, R.string.CampoVacio, Toast.LENGTH_SHORT).show();
@@ -125,9 +90,9 @@ public class PhraseRegisterActivity extends AppCompatActivity {
                 public void run() {
                     Integer respuesta = null;
                     try {
-                        final Usuario usuario= data.getUser(login);
-                        final int usersId =data.cogerId(usuario);
-                       respuesta = data.postPhrase(fraseEsp, fraseArb, type, usersId,pathAudio);
+                        final Usuario usuario = data.getUser(login);
+                        final int usersId = data.cogerId(usuario);
+                        respuesta = data.postPhrase(fraseEsp, fraseArb, type, usersId, pathAudio);
                     } catch (Exception e) {
                         Log.e("ALERTA", e.getMessage(), e);
                     } finally {
@@ -154,13 +119,13 @@ public class PhraseRegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != Activity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK)
             return;
-        else{
-            Button grabar = (Button)findViewById(R.id.botonGrabarAudio);
+        else {
+            Button grabar = (Button) findViewById(R.id.botonGrabarAudio);
             grabar.setVisibility(View.GONE);
 
-            Button registrar = (Button)findViewById(R.id.botonRegistrarFrase);
+            Button registrar = (Button) findViewById(R.id.botonRegistrarFrase);
             registrar.setVisibility(View.VISIBLE);
         }
     }

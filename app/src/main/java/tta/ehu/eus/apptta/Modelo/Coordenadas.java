@@ -6,12 +6,6 @@ public class Coordenadas {
     String place_id;
 
 
-    public Coordenadas(double latitud, double longitud, String place_id) {
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.place_id = place_id;
-    }
-
     public Coordenadas() {
 
     }

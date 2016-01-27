@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context="tta.ehu.eus.apptta.ContentActivity"
+tools:context=".Presentador.Activities.ContentActivity"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/SV2">
@@ -15,6 +15,14 @@ android:id="@+id/SV2">
         android:layout_height="wrap_content"
         android:text="@string/RegistrarFrase"
         android:onClick="registerPhrase"/>
+    <TextView
+        android:id="@+id/Nofrase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Nofrases"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:visibility="gone"/>
 
 
 </LinearLayout>

@@ -4,17 +4,8 @@ public class Frase {
     int type;
     String phraseEs;
     String phraseAr;
-    int usersId;
     String audioFrase;
 
-
-
-    public Frase(int type, String phraseEs, String phraseAr, String audioFrase) {
-        this.type = type;
-        this.phraseEs = phraseEs;
-        this.phraseAr = phraseAr;
-        this.audioFrase = audioFrase;
-    }
 
     public Frase() {
 

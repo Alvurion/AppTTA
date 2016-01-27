@@ -10,17 +10,17 @@
     <string name="CampoVacio">Existen campos sin rellenar</string>
     <string name="sinImplementar">Estamos trabajando en ello</string>
     <string name="noCoincide">No coinciden las contraseñas introducidas</string>
-    <string name="Menu">ENTRAR</string>
-    <string name="Policia">Policia</string>
+    <string name="Menu">Entrar</string>
+    <string name="Policia">Policía</string>
     <string name="Ayuntamiento">Ayuntamiento</string>
     <string name="Supermercado">Supermercado</string>
-    <string name="Panaderia">Panaderia</string>
+    <string name="Panaderia">Panadería</string>
     <string name="Estacion">Estación</string>
     <string name="Farmacia">Farmacia</string>
     <string name="Hospital">Hospital</string>
-    <string name="incorrecto">Usuario o contraseña incorrectos, intente de nuevo</string>
-    <string name="registroFallido">No se ha podido registrar al Usuario</string>
-    <string name="exito">Te has registrado exitosamente</string>
+    <string name="incorrecto">Usuario o contraseña incorrectos</string>
+    <string name="registroFallido">Registro de usuario fallido</string>
+    <string name="exito">Registrado con éxito</string>
     <string name="RememberPass">Recordar contraseña</string>
     <string name="RefiguApp">RefugiApp</string>
     <string name="LoginLabel">Login</string>
@@ -32,9 +32,14 @@
     <string name="enviar">Enviar</string>
     <string name="Propio">Frases Propias</string>
     <string name="RegistrarFrase">Registrar frase</string>
-    <string name="exitoFrase">El registro de la frase ha ido bien</string>
-    <string name="registroFallidoFrase">La frase no se ha registrado</string>
-    <string name="title_activity_maps">GoogleMaps</string>
-    <string name="noMicrophone">No hay micrófono.</string>
+    <string name="exitoFrase">Registro de frase con éxito</string>
+    <string name="registroFallidoFrase">Registro de frase fallido</string>
+    <string name="title_activity_maps">Google Maps</string>
+    <string name="noMicrophone">No hay micrófono</string>
+    <string name="Nofrases">No existen frases todavía</string>
+    <string name="localizacion_actual">Localización actual</string>
+    <string name="sinLocalizacion">Sin localización, mostrando ETSIB</string>
+    <string name="conLocalizacion">Con localización. Obteniendo última posición conocida</string>
+    <string name="encontrados">Encontrados</string>
 
 </resources>

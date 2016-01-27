@@ -21,7 +21,7 @@
         android:logo="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Presentador.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,17 +29,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Presentador.Activities.LoginActivity"
             android:label="@string/LoginLabel" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Presentador.Activities.RegisterActivity"
             android:label="@string/RegistroLabel" />
-        <activity android:name=".ContentActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".PhraseRegisterActivity" />
-        <activity android:name=".ContentMyPhrasesActivity"></activity>
+        <activity android:name=".Presentador.Activities.ContentActivity" />
+        <activity android:name=".Presentador.Activities.MenuActivity" />
+        <activity android:name=".Presentador.Activities.PhraseRegisterActivity" />
+        <activity android:name=".Presentador.Activities.ContentMyPhrasesActivity"></activity>
         <activity
-            android:name=".MapsActivity"
+            android:name=".Presentador.Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"

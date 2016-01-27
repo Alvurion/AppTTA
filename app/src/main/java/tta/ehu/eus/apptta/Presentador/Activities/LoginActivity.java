@@ -1,4 +1,4 @@
-package tta.ehu.eus.apptta;
+package tta.ehu.eus.apptta.Presentador.Activities;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,9 +12,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import tta.ehu.eus.apptta.Comunicaciones.NetworkReceiver;
-import tta.ehu.eus.apptta.Modelo.Usuario;
-import tta.ehu.eus.apptta.Presentacion.Data;
+import tta.ehu.eus.apptta.Modelo.Comunicaciones.NetworkReceiver;
+import tta.ehu.eus.apptta.Presentador.Data;
+import tta.ehu.eus.apptta.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //Register BroadcastReceiver to track network connection changes
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkReceiver();
         this.registerReceiver(receiver, filter);
@@ -50,14 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         final String pass = p.getText().toString();
         CheckBox cb = (CheckBox) findViewById(R.id.box1);
 
-        //Los tenemos cogidos para cuando tengamos la DB preparada
         if (user.isEmpty() || pass.isEmpty()) {
             Toast.makeText(this, R.string.CampoVacio, Toast.LENGTH_SHORT).show();
         } else {
-            //Aqui hacer hilo mientras comprueba que es user correcto o no
-            //dar acceso al menu
+
             final Intent intent = new Intent(this, MenuActivity.class);
-            intent.putExtra(EXTRA_LOGIN,user);
+            intent.putExtra(EXTRA_LOGIN, user);
             setLogin(u.getText().toString());
             if (cb.isChecked()) {
                 setPassword(p.getText().toString());
@@ -71,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     try {
                         response = data.comproUser(user, pass);
-                        comprobacion=data.esCorrecto(response);
+                        comprobacion = data.esCorrecto(response);
 
                     } catch (Exception e) {
                         Log.e("ALERTA", e.getMessage(), e);
@@ -105,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //unregisters BroadcastReceiver when app is destroyed
         if (receiver != null) {
             this.unregisterReceiver(receiver);
         }

@@ -1,15 +1,12 @@
-package tta.ehu.eus.apptta;
+package tta.ehu.eus.apptta.Presentador.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,14 +17,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 
 import tta.ehu.eus.apptta.Modelo.Coordenadas;
 import tta.ehu.eus.apptta.Modelo.Establecimiento;
-import tta.ehu.eus.apptta.Presentacion.Data;
+import tta.ehu.eus.apptta.Presentador.Data;
+import tta.ehu.eus.apptta.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,13 +35,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public double longitud;
 
     public String query = null;
-    public String placeid = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         Intent intent = getIntent();
         query = intent.getStringExtra(ContentActivity.EXTRA_TYPE);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -52,18 +47,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     */
+    // Manipula el mapa una vez esté disponible
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         int zoom = 13;
         obtenerLocalizacion();
         LatLng actual = new LatLng(latitud, longitud);
-        //mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-        // Link funcional
+        // Link funcional en navegador (no en la app!)
+        // Utiliza la API Key del navegador
         // https://maps.googleapis.com/maps/api/place/radarsearch/json?location=43.1699776,-2.6328183&radius=1000&keyword=panaderia&key=AIzaSyBsRFonYYpWr2R1nxMdtH-Mw-IgSOeyYmk&sensor=true
 
         final String path = obtenerPathGMaps(latitud, longitud, query);
@@ -80,7 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),"Encontrados: "+String.valueOf(coordenadas.length),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.encontrados) + ": " + String.valueOf(coordenadas.length - 1), Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -102,58 +97,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }.start();
-        // (FALTA)
 
-        // Hacer un query para obtener las localizaciones cercanas (panaderias, hospitales...).
-        // Hay que meter los valores de LAT y LONG que hemos obtenido antes.
-
-        // Aquí se incluirían los diferentes markers para cada resultado obtenido, con addMarker.
-
-        mMap.addMarker(new MarkerOptions().position(actual).title("Localización actual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        mMap.addMarker(new MarkerOptions().position(actual).title(getResources().getString(R.string.localizacion_actual)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
 
         mCamera = CameraUpdateFactory.newLatLngZoom(actual, zoom);
         mMap.animateCamera(mCamera);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
     }
 
     //Función para obtener la localización actual
+
     private void obtenerLocalizacion() throws SecurityException {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        LocationManager mLocationManager=null;
+        LocationManager mLocationManager = null;
         Location myLocation = getLastKnownLocation(mLocationManager);
 
-        //Location myLocation = locationManager.getLastKnownLocation(provider);
-
-        /*
-        En caso de que obtengamos una localización nula, ponemos la localización en la escuela
-        */
         if (myLocation == null) {
-            Toast.makeText(getApplicationContext(),"SIN LOCALIZACION",Toast.LENGTH_SHORT).show();
-            // Puerta del sol
-            //latitud=40.4169514;
-            //longitud=-3.7057172;
-
-            // ETSIB
+            Toast.makeText(getApplicationContext(), R.string.sinLocalizacion, Toast.LENGTH_SHORT).show();
+            // Coordenadas ETSI Bilbao
             latitud = 43.2624006;
             longitud = -2.9484819;
         } else {
-            Toast.makeText(getApplicationContext(),"CON LOCALIZACION :)))))",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.conLocalizacion, Toast.LENGTH_SHORT).show();
             latitud = myLocation.getLatitude();
             longitud = myLocation.getLongitude();
         }
 
 
     }
+
+    //Función para crear el path que ayudará a buscar todos los establecimientos en la zona.
 
     private String obtenerPathGMaps(double latitud, double longitud, String kw) {
         String peticionJson = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
@@ -177,6 +149,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    // Función para crear el path, que servirá para realizar una petición
+    // por cada establecimiento obtenido en la petición anterior.
+
     private String obtenerPathGMapsIndividual(String placeId) {
         String peticionJson = "https://maps.googleapis.com/maps/api/place/details/json?";
         String placeid = "placeid=";
@@ -191,8 +166,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+    //Función que busca la última posición conocida más precisa de la lista de proveedores
+
     private Location getLastKnownLocation(LocationManager mLocationManager) throws SecurityException {
-        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = mLocationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers) {
@@ -201,7 +179,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 continue;
             }
             if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
                 bestLocation = l;
             }
         }
